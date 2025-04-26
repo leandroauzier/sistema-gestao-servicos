@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  font-family: sans-serif;
+  background: var(--background, #1e3a8a);
+  color: var(--foreground, #ffffff);
+  padding: 1.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  font-family: sans-serif;
+  font-weight: 700;
+  border-bottom: 2px solid #d1d5db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+
+.section-title {
+  @apply text-2xl font-bold border-b-2 border-gray-300 pb-2 mb-4;
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -1,0 +1,71 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  // output = "app/generated/prisma/client"
+}
+
+model Estabelecimento {
+  id            Int            @id @default(autoincrement())
+  nome          String
+  telefone      String
+  email         String         @unique
+  senhaHash     String
+  clientes      Cliente[]
+  profissionais Profissional[]
+  agendamentos  Agendamento[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Cliente {
+  id                Int             @id @default(autoincrement())
+  nome              String
+  telefone          String
+  observacoes       String?
+  agendamentos      Agendamento[]
+  estabelecimento   Estabelecimento @relation(fields: [estabelecimentoId], references: [id])
+  estabelecimentoId Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model Profissional {
+  id                Int             @id @default(autoincrement())
+  nome              String
+  cargo             String
+  comissao          Float
+  agendamentos      Agendamento[]
+  estabelecimento   Estabelecimento @relation(fields: [estabelecimentoId], references: [id])
+  estabelecimentoId Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model Agendamento {
+  id                Int             @id @default(autoincrement())
+  dataHora          DateTime
+  valor             Float
+  clienteId         Int
+  profissionalId    Int
+  estabelecimento   Estabelecimento @relation(fields: [estabelecimentoId], references: [id])
+  estabelecimentoId Int
+  cliente           Cliente         @relation(fields: [clienteId], references: [id])
+  profissional      Profissional    @relation(fields: [profissionalId], references: [id])
+  Faturamento       Faturamento[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model Faturamento {
+  id            Int         @id @default(autoincrement())
+  data          DateTime
+  valor         Float
+  agendamento   Agendamento @relation(fields: [agendamentoId], references: [id])
+  agendamentoId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
